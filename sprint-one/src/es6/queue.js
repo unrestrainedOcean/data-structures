@@ -19,6 +19,4 @@ class Queue {
   size() {
     return Object.values(this.storage).length;
   }
-
-
 }
