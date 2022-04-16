@@ -2,38 +2,61 @@
 
 // Instantiate a new graph
 var Graph = function() {
+  this.storage = {};
 };
 
 // Add a node to the graph, passing in the node's value.
+//
+//Time complexity: Constant
 Graph.prototype.addNode = function(node) {
+  this.storage[node] = {};
 };
 
-// Return a boolean value indicating if the value passed to contains is represented in the graph.
+
+// Time complexity: Constant
 Graph.prototype.contains = function(node) {
+  return node in this.storage;
 };
 
-// Removes a node from the graph.
+
+// Time complexity: Constant
 Graph.prototype.removeNode = function(node) {
+  delete this.storage[node];
+// second find connections and delete
 };
 
-// Returns a boolean indicating whether two specified nodes are connected.  Pass in the values contained in each of the two nodes.
+
+// Time complexity: Constant
 Graph.prototype.hasEdge = function(fromNode, toNode) {
+  return this.storage[fromNode] !== undefined &&
+    this.storage[toNode] !== undefined &&
+    toNode in this.storage[fromNode] &&
+    fromNode in this.storage[toNode];
 };
 
-// Connects two nodes in a graph by adding an edge between them.
+// Time complexity: Constant
 Graph.prototype.addEdge = function(fromNode, toNode) {
+  this.storage[fromNode][toNode] = toNode;
+  this.storage[toNode][fromNode] = fromNode;
 };
 
-// Remove an edge between any two specified (by value) nodes.
+// Time complexity: Constant
 Graph.prototype.removeEdge = function(fromNode, toNode) {
+  delete this.storage[fromNode][toNode];
+  delete this.storage[toNode][fromNode];
 };
 
-// Pass in a callback which will be executed on each node of the graph.
+// Time complexity: Linear
 Graph.prototype.forEachNode = function(cb) {
+  for (var keys in this.storage) {
+    cb(keys);
+  }
 };
 
-/*
- * Complexity: What is the time complexity of the above functions?
- */
 
-
+// Graph{
+//   { 1 :  [3, 5] },                       // <-- Key = node , value = array with connections
+//   { 2 :  [ 4 ] },
+//   { 3 :  [ 6 ] },
+//   ...
+// }
